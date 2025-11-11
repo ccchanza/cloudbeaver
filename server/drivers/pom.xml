@@ -16,11 +16,11 @@
     </properties>
 
     <modules>
-        <module>clickhouse_com</module>
-        <module>databend</module>
+        <!-- <module>clickhouse_com</module> -->
+        <!-- <module>databend</module> -->
         <module>db2</module>
         <module>db2-jt400</module>
-        <module>duckdb</module>
+        <!-- <module>duckdb</module> -->
         <module>h2</module>
         <module>h2_v2</module>
         <module>jaybird</module>
