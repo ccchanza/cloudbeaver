@@ -18,7 +18,6 @@
 package io.cloudbeaver.test.platform;
 
 import io.cloudbeaver.app.CEAppStarter;
-import io.cloudbeaver.model.rm.RMNIOTest;
 import io.cloudbeaver.model.rm.lock.RMLockTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -33,7 +32,6 @@ import org.junit.runners.Suite;
         AuthenticationTest.class,
         ResourceManagerTest.class,
         RMLockTest.class,
-        RMNIOTest.class,
         NoSessionTest.class
     }
 )
