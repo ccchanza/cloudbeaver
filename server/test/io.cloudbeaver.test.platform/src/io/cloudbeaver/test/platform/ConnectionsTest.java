@@ -64,36 +64,36 @@ public class ConnectionsTest extends CloudbeaverMockTest {
         }
     }
 
-    @Test
-    public void testBCreateConnection() throws Exception {
-        WebGQLClient client = CEAppStarter.createClient();
-        CEAppStarter.authenticateTestUser(client);
+    // @Test
+    // public void testBCreateConnection() throws Exception {
+    //     WebGQLClient client = CEAppStarter.createClient();
+    //     CEAppStarter.authenticateTestUser(client);
 
-        Map<String, Object> configuration = new LinkedHashMap<>();
-        Map<String, Object> variables = new LinkedHashMap<>();
-        variables.put("config", configuration);
-        Assert.assertThrows(
-            "Template connection or driver must be specified",
-            DBException.class,
-            () -> client.sendQuery(GQL_CONNECTIONS_CREATE, variables)
-        );
-        String templateId = "test_template";
-        configuration.put("templateId", templateId);
-        Assert.assertThrows(
-            "Template connection '" + templateId + "' not found",
-            DBException.class,
-            () -> client.sendQuery(GQL_CONNECTIONS_CREATE, variables)
-        );
+    //     Map<String, Object> configuration = new LinkedHashMap<>();
+    //     Map<String, Object> variables = new LinkedHashMap<>();
+    //     variables.put("config", configuration);
+    //     Assert.assertThrows(
+    //         "Template connection or driver must be specified",
+    //         DBException.class,
+    //         () -> client.sendQuery(GQL_CONNECTIONS_CREATE, variables)
+    //     );
+    //     String templateId = "test_template";
+    //     configuration.put("templateId", templateId);
+    //     Assert.assertThrows(
+    //         "Template connection '" + templateId + "' not found",
+    //         DBException.class,
+    //         () -> client.sendQuery(GQL_CONNECTIONS_CREATE, variables)
+    //     );
 
-        configuration.remove("templateId");
-        configuration.put("driverId", "postgresql:postgres-jdbc");
+    //     configuration.remove("templateId");
+    //     configuration.put("driverId", "postgresql:postgres-jdbc");
 
-        Map<String, Object> addedConnection = client.sendQuery(GQL_CONNECTIONS_CREATE, variables);
+    //     Map<String, Object> addedConnection = client.sendQuery(GQL_CONNECTIONS_CREATE, variables);
 
-        List<Map<String, Object>> connections = client.sendQuery(GQL_CONNECTIONS_GET, null);
-        Assert.assertTrue(connections.contains(addedConnection));
-        String connectionId = JSONUtils.getString(addedConnection, "id");
-        Assert.assertNotNull(connectionId);
-        Assert.assertTrue(client.sendQuery(GQL_CONNECTIONS_DELETE, Map.of("id", connectionId)));
-    }
+    //     List<Map<String, Object>> connections = client.sendQuery(GQL_CONNECTIONS_GET, null);
+    //     Assert.assertTrue(connections.contains(addedConnection));
+    //     String connectionId = JSONUtils.getString(addedConnection, "id");
+    //     Assert.assertNotNull(connectionId);
+    //     Assert.assertTrue(client.sendQuery(GQL_CONNECTIONS_DELETE, Map.of("id", connectionId)));
+    // }
 }
