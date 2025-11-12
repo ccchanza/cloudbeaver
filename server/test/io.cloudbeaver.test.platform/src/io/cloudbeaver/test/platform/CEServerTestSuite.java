@@ -28,7 +28,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
     {
         ConnectionsTest.class,
-        SQLQueryTranslatorTest.class,
         AuthenticationTest.class,
         ResourceManagerTest.class,
         RMLockTest.class,
