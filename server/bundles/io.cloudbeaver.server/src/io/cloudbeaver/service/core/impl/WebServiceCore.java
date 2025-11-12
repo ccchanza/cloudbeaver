@@ -54,7 +54,7 @@ import org.jkiss.dbeaver.model.net.DBWHandlerConfiguration;
 import org.jkiss.dbeaver.model.net.DBWHandlerType;
 import org.jkiss.dbeaver.model.net.DBWNetworkHandler;
 import org.jkiss.dbeaver.model.net.DBWTunnel;
-import org.jkiss.dbeaver.model.net.ssh.SSHSession;
+// import org.jkiss.dbeaver.model.net.ssh.SSHSession;
 import org.jkiss.dbeaver.model.rm.RMProjectType;
 import org.jkiss.dbeaver.model.runtime.DBRProgressMonitor;
 import org.jkiss.dbeaver.model.secret.DBSSecretController;
@@ -602,14 +602,15 @@ public class WebServiceCore implements DBWServiceCore {
                     tunnel.initializeHandler(monitor, configuration, connectionConfig);
                     monitor.worked(1);
                     // Get info
-                    if (tunnel.getImplementation() instanceof SSHSession session) {
-                        return new WebNetworkEndpointInfo(
-                            "Connected",
-                            session.getClientVersion(),
-                            session.getServerVersion());
-                    } else {
-                        return new WebNetworkEndpointInfo("Connected");
-                    }
+                    // if (tunnel.getImplementation() instanceof SSHSession session) {
+                    //     return new WebNetworkEndpointInfo(
+                    //         "Connected",
+                    //         session.getClientVersion(),
+                    //         session.getServerVersion());
+                    // } else {
+                    //     return new WebNetworkEndpointInfo("Connected");
+                    // }
+                    return new WebNetworkEndpointInfo("Connected");
                 } finally {
                     monitor.subTask("Close tunnel");
                     tunnel.closeTunnel(monitor);
