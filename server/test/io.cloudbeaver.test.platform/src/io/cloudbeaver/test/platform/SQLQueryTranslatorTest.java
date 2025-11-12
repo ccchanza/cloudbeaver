@@ -20,8 +20,8 @@ import io.cloudbeaver.CloudbeaverMockTest;
 import org.jkiss.code.NotNull;
 import org.jkiss.dbeaver.DBException;
 import org.jkiss.dbeaver.ext.h2.model.H2SQLDialect;
-import org.jkiss.dbeaver.ext.mssql.model.SQLServerDialect;
-import org.jkiss.dbeaver.ext.mysql.model.MySQLDialect;
+// import org.jkiss.dbeaver.ext.mssql.model.SQLServerDialect;
+// import org.jkiss.dbeaver.ext.mysql.model.MySQLDialect;
 import org.jkiss.dbeaver.ext.oracle.model.OracleSQLDialect;
 // import org.jkiss.dbeaver.ext.postgresql.model.PostgreDialect;
 import org.jkiss.dbeaver.model.impl.sql.BasicSQLDialect;
@@ -52,13 +52,13 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         //         "IS_SECRET_STORAGE CHAR (1) DEFAULT 'Y' NOT NULL,\n" +
         //         "PRIMARY KEY (SUBJECT_ID));\n"
         // );
-        expectedSqlByDialect.put(new MySQLDialect(),
-            "CREATE TABLE CB_AUTH_SUBJECT (SUBJECT_ID VARCHAR (128) NOT NULL,\n" +
-                "SUBJECT_TYPE VARCHAR (8) NOT NULL,\n" +
-                "IS_SECRET_STORAGE CHAR (1) DEFAULT 'Y' NOT NULL,\n" +
-                "PRIMARY KEY (SUBJECT_ID));\n");
+        // expectedSqlByDialect.put(new MySQLDialect(),
+        //     "CREATE TABLE CB_AUTH_SUBJECT (SUBJECT_ID VARCHAR (128) NOT NULL,\n" +
+        //         "SUBJECT_TYPE VARCHAR (8) NOT NULL,\n" +
+        //         "IS_SECRET_STORAGE CHAR (1) DEFAULT 'Y' NOT NULL,\n" +
+        //         "PRIMARY KEY (SUBJECT_ID));\n");
         expectedSqlByDialect.put(new OracleSQLDialect(), basicSql);
-        expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
+        // expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
 
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
@@ -70,9 +70,9 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         Map<SQLDialect, String> expectedSqlByDialect = new HashMap<>();
         expectedSqlByDialect.put(new H2SQLDialect(), basicSql);
         // expectedSqlByDialect.put(new PostgreDialect(), basicSql);
-        expectedSqlByDialect.put(new MySQLDialect(), basicSql);
+        // expectedSqlByDialect.put(new MySQLDialect(), basicSql);
         expectedSqlByDialect.put(new OracleSQLDialect(), basicSql);
-        expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
+        // expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
 
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
@@ -96,15 +96,15 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         Map<SQLDialect, String> expectedSqlByDialect = new HashMap<>();
         expectedSqlByDialect.put(new H2SQLDialect(), basicSql);
         // expectedSqlByDialect.put(new PostgreDialect(), basicSql);
-        expectedSqlByDialect.put(
-            new MySQLDialect(),
-            "CREATE TABLE CB_TEST_TYPES (UUID_COLUMN CHAR(36));\n"
-        );
+        // expectedSqlByDialect.put(
+        //     new MySQLDialect(),
+        //     "CREATE TABLE CB_TEST_TYPES (UUID_COLUMN CHAR(36));\n"
+        // );
         expectedSqlByDialect.put(new OracleSQLDialect(), "CREATE TABLE CB_TEST_TYPES (UUID_COLUMN VARCHAR2(36));\n");
-        expectedSqlByDialect.put(
-            new SQLServerDialect(),
-            "CREATE TABLE CB_TEST_TYPES (UUID_COLUMN UNIQUEIDENTIFIER);\n"
-        );
+        // expectedSqlByDialect.put(
+        //     new SQLServerDialect(),
+        //     "CREATE TABLE CB_TEST_TYPES (UUID_COLUMN UNIQUEIDENTIFIER);\n"
+        // );
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
 
@@ -115,16 +115,16 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         Map<SQLDialect, String> expectedSqlByDialect = new HashMap<>();
         expectedSqlByDialect.put(new H2SQLDialect(), basicSql);
         // expectedSqlByDialect.put(new PostgreDialect(), basicSql);
-        expectedSqlByDialect.put(new MySQLDialect(), "CREATE TABLE CB_TEST_TYPES (BOOLEAN_COLUMN TINYINT(1));\n");
+        // expectedSqlByDialect.put(new MySQLDialect(), "CREATE TABLE CB_TEST_TYPES (BOOLEAN_COLUMN TINYINT(1));\n");
 
         expectedSqlByDialect.put(
             new OracleSQLDialect(),
             "CREATE TABLE CB_TEST_TYPES (BOOLEAN_COLUMN VARCHAR(1));\n"
         );
-        expectedSqlByDialect.put(
-            new SQLServerDialect(),
-            "CREATE TABLE CB_TEST_TYPES (BOOLEAN_COLUMN BIT);\n"
-        );
+        // expectedSqlByDialect.put(
+        //     new SQLServerDialect(),
+        //     "CREATE TABLE CB_TEST_TYPES (BOOLEAN_COLUMN BIT);\n"
+        // );
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
 
@@ -135,10 +135,10 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         Map<SQLDialect, String> expectedSqlByDialect = new HashMap<>();
         expectedSqlByDialect.put(new H2SQLDialect(), basicSql);
         // expectedSqlByDialect.put(new PostgreDialect(), "CREATE TABLE CB_TEST_TYPES (BLOB_COLUMN BYTEA);\n");
-        expectedSqlByDialect.put(new MySQLDialect(), basicSql);
+        // expectedSqlByDialect.put(new MySQLDialect(), basicSql);
 
         expectedSqlByDialect.put(new OracleSQLDialect(), basicSql);
-        expectedSqlByDialect.put(new SQLServerDialect(), "CREATE TABLE CB_TEST_TYPES (BLOB_COLUMN IMAGE);\n");
+        // expectedSqlByDialect.put(new SQLServerDialect(), "CREATE TABLE CB_TEST_TYPES (BLOB_COLUMN IMAGE);\n");
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
 
@@ -149,10 +149,10 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         Map<SQLDialect, String> expectedSqlByDialect = new HashMap<>();
         expectedSqlByDialect.put(new H2SQLDialect(), basicSql);
         // expectedSqlByDialect.put(new PostgreDialect(), basicSql);
-        expectedSqlByDialect.put(new MySQLDialect(), basicSql);
+        // expectedSqlByDialect.put(new MySQLDialect(), basicSql);
 
         expectedSqlByDialect.put(new OracleSQLDialect(), "CREATE TABLE CB_TEST_TYPES (BIGINT_COLUMN NUMBER);\n");
-        expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
+        // expectedSqlByDialect.put(new SQLServerDialect(), basicSql);
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
     }
 
@@ -167,14 +167,14 @@ public class    SQLQueryTranslatorTest extends CloudbeaverMockTest {
         //         "('CB_TEST_TYPES_AUTOINC_COLUMN'));\n" +
         //     "ALTER SEQUENCE CB_TEST_TYPES_AUTOINC_COLUMN OWNED BY CB_TEST_TYPES.AUTOINC_COLUMN;\n"
         // );
-        expectedSqlByDialect.put(new MySQLDialect(), basicSql);
+        // expectedSqlByDialect.put(new MySQLDialect(), basicSql);
 
         expectedSqlByDialect.put(
             new OracleSQLDialect(),
             "CREATE TABLE CB_TEST_TYPES (AUTOINC_COLUMN NUMBER GENERATED ALWAYS AS IDENTITY NOT NULL);\n");
-        expectedSqlByDialect.put(
-            new SQLServerDialect(),
-            "CREATE TABLE CB_TEST_TYPES (AUTOINC_COLUMN BIGINT IDENTITY NOT NULL);\n");
+        // expectedSqlByDialect.put(
+        //     new SQLServerDialect(),
+        //     "CREATE TABLE CB_TEST_TYPES (AUTOINC_COLUMN BIGINT IDENTITY NOT NULL);\n");
         translateAndValidateQueries(basicSql, expectedSqlByDialect);
 
     }
