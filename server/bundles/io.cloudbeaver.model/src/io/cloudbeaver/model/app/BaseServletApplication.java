@@ -16,7 +16,7 @@
  */
 package io.cloudbeaver.model.app;
 
-import io.cloudbeaver.model.cli.CloudBeaverInstanceServer;
+// import io.cloudbeaver.model.cli.CloudBeaverInstanceServer;
 import io.cloudbeaver.model.log.SLF4JLogHandler;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -28,7 +28,7 @@ import org.jkiss.dbeaver.model.DBFileController;
 import org.jkiss.dbeaver.model.app.DBPWorkspace;
 import org.jkiss.dbeaver.model.auth.SMCredentialsProvider;
 import org.jkiss.dbeaver.model.auth.SMSessionContext;
-import org.jkiss.dbeaver.model.cli.ApplicationInstanceController;
+// import org.jkiss.dbeaver.model.cli.ApplicationInstanceController;
 import org.jkiss.dbeaver.model.data.json.JSONUtils;
 import org.jkiss.dbeaver.model.impl.app.ApplicationRegistry;
 import org.jkiss.dbeaver.model.impl.app.BaseApplicationImpl;
@@ -60,7 +60,7 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
     private static final Log log = Log.getLog(BaseServletApplication.class);
 
     private String instanceId;
-    private CloudBeaverInstanceServer instanceServer;
+    // private CloudBeaverInstanceServer instanceServer;
     @Override
     public RMController createResourceController(
         @NotNull SMCredentialsProvider credentialsProvider,
@@ -204,11 +204,11 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
     public Object start(IApplicationContext context) {
         initializeApplicationServices();
         try {
-            try {
-                this.instanceServer = createInstanceServer();
-            } catch (Exception e) {
-                log.error("Error initializing instance server", e);
-            }
+            // try {
+            //     this.instanceServer = createInstanceServer();
+            // } catch (Exception e) {
+            //     log.error("Error initializing instance server", e);
+            // }
             startServer();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -217,9 +217,9 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
         return EXIT_OK;
     }
 
-    protected CloudBeaverInstanceServer createInstanceServer() throws IOException {
-        return new CloudBeaverInstanceServer();
-    }
+    // protected CloudBeaverInstanceServer createInstanceServer() throws IOException {
+    //     return new CloudBeaverInstanceServer();
+    // }
 
     protected abstract void startServer() throws DBException;
 
@@ -281,11 +281,11 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
         }
     }
 
-    @Nullable
-    @Override
-    public ApplicationInstanceController getInstanceServer() {
-        return instanceServer;
-    }
+    // @Nullable
+    // @Override
+    // public ApplicationInstanceController getInstanceServer() {
+    //     return instanceServer;
+    // }
 
     @Override
     public boolean isAnonymousAccessEnabled() {
