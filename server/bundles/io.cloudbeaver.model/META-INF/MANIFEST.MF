@@ -16,7 +16,8 @@ Require-Bundle: org.jkiss.dbeaver.data.gis;visibility:=reexport,
  org.jkiss.bundle.graphql;visibility:=reexport,
  org.jkiss.bundle.apache.dbcp,
  jakarta.servlet-api;bundle-version:="6.0.0";visibility:=reexport,
- org.jkiss.bundle.gson;visibility:=reexport
+ org.jkiss.bundle.gson;visibility:=reexport,
+ org.jkiss.bundle.logback
 Export-Package: io.cloudbeaver,
  io.cloudbeaver.auth,
  io.cloudbeaver.auth.provider,
@@ -49,4 +50,3 @@ Export-Package: io.cloudbeaver,
  io.cloudbeaver.utils,
  io.cloudbeaver.utils.file
 Automatic-Module-Name: io.cloudbeaver.model
-Import-Package: org.slf4j
