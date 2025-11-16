@@ -7,6 +7,7 @@ Bundle-Version: 1.0.133.qualifier
 Bundle-Release-Date: 20251117
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
-Require-Bundle: io.cloudbeaver.server.ce
+Require-Bundle: io.cloudbeaver.server.ce,
+  org.jkiss.bundle.jakarta.servlet-api
 Automatic-Module-Name: io.cloudbeaver.service.auth
 Export-Package: io.cloudbeaver.service.auth

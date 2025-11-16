@@ -13,6 +13,7 @@ Require-Bundle: org.jkiss.utils;visibility:=reexport,
  org.jkiss.bundle.jetty.server;visibility:=reexport,
  org.jkiss.bundle.graphql;visibility:=reexport,
  org.jkiss.bundle.apache.dbcp,
+ org.jkiss.bundle.jakarta.servlet-api,
  org.jkiss.dbeaver.net.ssh,
  io.cloudbeaver.model;visibility:=reexport,
  io.cloudbeaver.service.security;visibility:=reexport
