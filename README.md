@@ -1,7 +1,7 @@
 # CVE to resolve
 
 | File | CVE |
-|---|---|---|
+|---|---|
 | Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') | SourceCode/server/bundles/io.cloudbeaver.model/src/io/cloudbeaver/model/rm/local/BaseLocalResourceController.java |
 | Permissive Cross-domain Policy with Untrusted Domains | SourceCode/server/bundles/io.cloudbeaver.server/src/io/cloudbeaver/server/servlets/WebStatusServlet.java |
 | URL Redirection to Untrusted Site ('Open Redirect') | SourceCode/server/bundles/io.cloudbeaver.server.ce/src/io/cloudbeaver/server/jetty/RequestHostFilter.java |
