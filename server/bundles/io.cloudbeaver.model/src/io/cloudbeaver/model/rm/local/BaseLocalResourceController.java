@@ -53,6 +53,7 @@ public abstract class BaseLocalResourceController implements RMController {
     public static final String DEFAULT_CHANGE_ID = "0";
     private static final String FILE_REGEX = "(?U)[\\w.$()@/\\\\ -]+";
     private static final String PROJECT_REGEX = "(?U)[\\w.$()@ -]+"; // slash not allowed in project name
+    private static final String RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX = "(?U)[^/:'\"\\\\<>|?*]+";
 
     @NotNull
     protected final DBPWorkspace workspace;
@@ -300,7 +301,18 @@ public abstract class BaseLocalResourceController implements RMController {
         var fullPath = Paths.get(resourcePath);
         for (Path path : fullPath) {
             String fileName = IOUtils.getFileNameWithoutExtension(path);
-            GeneralUtils.validateResourceName(fileName);
+            
+            if (fileName.startsWith(".")) {
+                throw new DBException("Resource name '" + fileName + "' can't start with dot");
+            }
+
+            String forbiddenSymbols = fileName.replaceAll(RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX, "");
+            if (CommonUtils.isNotEmpty(forbiddenSymbols)) {
+                String forbiddenExplain = forbiddenSymbols.chars()
+                    .mapToObj(c -> Character.toString((char) c))
+                    .collect(Collectors.joining(" "));
+                throw new DBException("Resource name '" + fileName + "' contains illegal characters:  " + forbiddenExplain);
+            }
         }
     }
 
