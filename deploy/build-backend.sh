@@ -5,7 +5,9 @@ set +u
 echo "Clone and build Cloudbeaver"
 
 rm -rf ./drivers
-rm -rf ./cloudbeaver
+rm -rf ./cloudbeaver/server
+rm -rf ./cloudbeaver/conf
+rm -rf ./cloudbeaver/workspace
 mkdir ./cloudbeaver
 mkdir ./cloudbeaver/server
 mkdir ./cloudbeaver/conf
@@ -36,7 +38,6 @@ echo "Copy server packages"
 
 cp -rp ../server/product/web-server/target/products/io.cloudbeaver.product/all/all/all/* ./cloudbeaver/server
 cp -p ./scripts/* ./cloudbeaver
-mkdir cloudbeaver/samples
 
 cp -rp  ../config/core/* cloudbeaver/conf
 cp -rp ../config/GlobalConfiguration/.dbeaver/data-sources.json cloudbeaver/conf/initial-data-sources.conf
