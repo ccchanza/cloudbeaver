@@ -3255,6 +3255,7 @@ public class CBEmbeddedSecurityController<T extends ServletAuthApplication>
         String subjectId = getSubjectId();
         try (Connection dbCon = database.openConnection()) {
             Set<String> allSubjects = getAllLinkedSubjects(dbCon, subjectId);
+            allSubjects.add(subjectId);
             {
                 var sqlBuilder = new StringBuilder("SELECT OBJECT_ID,PERMISSION FROM {table_prefix}CB_OBJECT_PERMISSIONS ");
                 sqlBuilder.append("WHERE SUBJECT_ID IN (");
@@ -3290,6 +3291,7 @@ public class CBEmbeddedSecurityController<T extends ServletAuthApplication>
     ) throws DBException {
         try (Connection dbCon = database.openConnection()) {
             Set<String> allSubjects = getAllLinkedSubjects(dbCon, subjectId);
+            allSubjects.add(subjectId);
             {
                 var sqlBuilder = new StringBuilder("SELECT PERMISSION FROM {table_prefix}CB_OBJECT_PERMISSIONS ");
                 sqlBuilder.append("WHERE SUBJECT_ID IN (");
@@ -3355,6 +3357,7 @@ public class CBEmbeddedSecurityController<T extends ServletAuthApplication>
         var grantedPermissionsByObjectId = new HashMap<String, SMObjectPermissionsGrant.Builder>();
         try (Connection dbCon = database.openConnection()) {
             var allLinkedSubjects = getAllLinkedSubjects(dbCon, subjectId);
+            allLinkedSubjects.add(subjectId);
             var sqlBuilder =
                 new StringBuilder("SELECT OP.OBJECT_ID,S.SUBJECT_TYPE,S.SUBJECT_ID,OP.PERMISSION\n")
                     .append("FROM {table_prefix}CB_OBJECT_PERMISSIONS OP, {table_prefix}CB_AUTH_SUBJECT S\n")
