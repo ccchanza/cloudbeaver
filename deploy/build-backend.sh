@@ -8,6 +8,7 @@ rm -rf ./drivers
 rm -rf ./cloudbeaver/server
 rm -rf ./cloudbeaver/conf
 rm -rf ./cloudbeaver/workspace
+rm -rf ./cloudbeaver/drivers
 mkdir -p ./cloudbeaver
 mkdir ./cloudbeaver/server
 mkdir ./cloudbeaver/conf

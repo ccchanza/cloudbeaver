@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class BaseLocalResourceController implements RMController {
     private static final Log log = Log.getLog(BaseLocalResourceController.class);
@@ -307,7 +308,7 @@ public abstract class BaseLocalResourceController implements RMController {
             }
 
             String forbiddenSymbols = fileName.replaceAll(RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX, "");
-            if (CommonUtils.isNotEmpty(forbiddenSymbols)) {
+            if (forbiddenSymbols != null && forbiddenSymbols.length() != 0) {
                 String forbiddenExplain = forbiddenSymbols.chars()
                     .mapToObj(c -> Character.toString((char) c))
                     .collect(Collectors.joining(" "));
