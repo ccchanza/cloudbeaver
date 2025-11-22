@@ -7,12 +7,12 @@ echo "Clone and build Cloudbeaver"
 rm -rf ./drivers
 rm -rf ./cloudbeaver/server
 rm -rf ./cloudbeaver/conf
-rm -rf ./cloudbeaver/workspace
+# rm -rf ./cloudbeaver/workspace
 rm -rf ./cloudbeaver/drivers
 mkdir -p ./cloudbeaver
 mkdir ./cloudbeaver/server
 mkdir ./cloudbeaver/conf
-mkdir ./cloudbeaver/workspace
+mkdir -p ./cloudbeaver/workspace
 
 echo "Pull cloudbeaver platform"
 
