@@ -106,19 +106,22 @@ public class RequestHostFilter implements Filter {
         boolean httpsExpected = serverConfig.isForceHttps();
         try {
             if ("http".equals(originUri.getScheme()) && httpsExpected) {
-                log.warn("Request schema is 'http' but 'forceHttps' is enabled. Redirecting to 'https'.");
-                StringBuilder redirectUrlBuilder = new StringBuilder("https://")
-                    .append(originUri.getHost());
-                if (originUri.getPort() > -1) {
-                    redirectUrlBuilder.append(':').append(originUri.getPort());
-                }
-                redirectUrlBuilder.append(httpRequest.getRequestURI());
-                if (httpRequest.getQueryString() != null) {
-                    redirectUrlBuilder.append("?")
-                        .append(httpRequest.getQueryString());
-                }
-                response.sendRedirect(redirectUrlBuilder.toString());
+                log.error("Request schema is 'http' but 'forceHttps' is enabled. Try redirecting to 'https'.");
                 return false;
+
+                // log.warn("Request schema is 'http' but 'forceHttps' is enabled. Redirecting to 'https'.");
+                // StringBuilder redirectUrlBuilder = new StringBuilder("https://")
+                //     .append(originUri.getHost());
+                // if (originUri.getPort() > -1) {
+                //     redirectUrlBuilder.append(':').append(originUri.getPort());
+                // }
+                // redirectUrlBuilder.append(httpRequest.getRequestURI());
+                // if (httpRequest.getQueryString() != null) {
+                //     redirectUrlBuilder.append("?")
+                //         .append(httpRequest.getQueryString());
+                // }
+                // response.sendRedirect(redirectUrlBuilder.toString());
+                // return false;
             }
         } catch (Exception e) {
             log.error("Failed to redirect to HTTPS", e);
@@ -152,30 +155,31 @@ public class RequestHostFilter implements Filter {
                         return false;
                     }
                 }
-                log.warn("Request host '" + requestHost + "' is not allowed. Redirect to default: " + availableHosts);
-                redirectToDefaultHost(response, httpRequest, availableHosts);
+                log.warn("Request host '" + requestHost + "' is not allowed. Try to redirect to default: " + availableHosts);
+                // redirectToDefaultHost(response, httpRequest, availableHosts);
                 return false;
             }
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
-            redirectToDefaultHost(response, httpRequest, availableHosts);
+            log.error("Failed to validate request host. Try to redirect to default: " + availableHosts);
+            // redirectToDefaultHost(response, httpRequest, availableHosts);
             return false;
         }
         return true;
     }
 
-    private void redirectToDefaultHost(
-        @NotNull HttpServletResponse response,
-        @NotNull HttpServletRequest httpRequest,
-        @NotNull List<String> availableHosts
-    ) throws IOException {
-        boolean https = application.getServerConfiguration().isForceHttps();
-        String redirectUrl = (https ? "https://" : "http://") + getDefaultHost(availableHosts) + httpRequest.getRequestURI();
-        if (httpRequest.getQueryString() != null) {
-            redirectUrl += "?" + httpRequest.getQueryString();
-        }
-        response.sendRedirect(redirectUrl);
-    }
+    // private void redirectToDefaultHost(
+    //     @NotNull HttpServletResponse response,
+    //     @NotNull HttpServletRequest httpRequest,
+    //     @NotNull List<String> availableHosts
+    // ) throws IOException {
+    //     boolean https = application.getServerConfiguration().isForceHttps();
+    //     String redirectUrl = (https ? "https://" : "http://") + getDefaultHost(availableHosts) + httpRequest.getRequestURI();
+    //     if (httpRequest.getQueryString() != null) {
+    //         redirectUrl += "?" + httpRequest.getQueryString();
+    //     }
+    //     response.sendRedirect(redirectUrl);
+    // }
 
     @NotNull
     private String getDefaultHost(@NotNull List<String> availableHosts) {
