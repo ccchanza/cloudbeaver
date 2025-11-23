@@ -84,14 +84,6 @@ public class CBStaticServlet extends DefaultServlet {
         try {
             CBApplication<?> cbApplication = CBPlatform.getInstance().getApplication();
             finishSessionLoginIfNeeded(request, response);
-            if (cbApplication.getAppConfiguration().isRedirectOnFederatedAuth()
-                && isRootServiceUri(uri)
-                && request.getParameterMap().isEmpty()
-            ) {
-                if (performAutoLogin(request, response)) {
-                    return;
-                }
-            }
         } catch (DBWebException e) {
             log.error("Error reading websession", e);
         }
@@ -125,80 +117,6 @@ public class CBStaticServlet extends DefaultServlet {
             AUTO_LOGIN_AUTH_ID, authId
         );
         WebActionParameters.saveToSession(webSession, authActionParams);
-    }
-
-    private boolean performAutoLogin(HttpServletRequest request, HttpServletResponse response) {
-        CBApplication<?> application = CBApplication.getInstance();
-        if (application.isConfigurationMode()) {
-            return false;
-        }
-        CBAppConfig appConfig = application.getAppConfiguration();
-        String[] authProviders = appConfig.getEnabledAuthProviders();
-        if (authProviders.length == 1) {
-            String authProviderId = authProviders[0];
-            WebAuthProviderDescriptor authProvider = WebAuthProviderRegistry.getInstance().getAuthProvider(authProviderId);
-            if (authProvider != null && authProvider.isConfigurable()) {
-                SMAuthProviderCustomConfiguration activeAuthConfig = null;
-                for (SMAuthProviderCustomConfiguration cfg : appConfig.getAuthCustomConfigurations()) {
-                    if (!cfg.isDisabled() && cfg.getProvider().equals(authProviderId)) {
-                        if (activeAuthConfig != null) {
-                            return false;
-                        }
-                        activeAuthConfig = cfg;
-                    }
-                }
-                if (activeAuthConfig == null) {
-                    return false;
-                }
-
-                try {
-                    WebSession webSession = CBApplication.getInstance().getSessionManager().getWebSession(
-                        request, response, false);
-                    WebActionParameters webActionParameters = WebActionParameters.fromSession(webSession, false);
-                    if (webActionParameters != null && webActionParameters.getParameters().containsValue(AUTO_LOGIN_ACTION)) {
-                        return false;
-                    }
-                    // We have the only provider
-                    // Forward to signon URL
-                    SMAuthProvider<?> authProviderInstance = authProvider.getInstance();
-                    if (authProviderInstance instanceof SMAuthProviderFederated) {
-                        if (webSession.getUser() == null) {
-                            var securityController = webSession.getSecurityController();
-                            SMAuthInfo authInfo = securityController.authenticate(
-                                webSession.getSessionId(),
-                                null,
-                                webSession.getSessionParameters(),
-                                WebSession.CB_SESSION_TYPE,
-                                authProvider.getId(),
-                                activeAuthConfig.getId(),
-                                Map.of(),
-                                false
-                            );
-                            String signInLink = authInfo.getRedirectUrl();
-                            //ignore current routing if non-root page is open
-                            if (!signInLink.endsWith("#")) {
-                                signInLink += "#";
-                            }
-                            if (!CommonUtils.isEmpty(signInLink)) {
-                                // Redirect to it
-                                Map<String, Object> authActionParams = Map.of(
-                                    ACTION, AUTO_LOGIN_ACTION,
-                                    AUTO_LOGIN_AUTH_ID, authInfo.getAuthAttemptId()
-                                );
-                                WebActionParameters.saveToSession(webSession, authActionParams);
-                                request.getSession().setAttribute(DBWConstants.STATE_ATTR_SIGN_IN_STATE, DBWConstants.SignInState.GLOBAL);
-                                response.sendRedirect(signInLink);
-                                return true;
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    log.debug("Error reading auth provider configuration", e);
-                }
-            }
-        }
-
-        return false;
     }
 
     private void patchStaticContentIfNeeded(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
