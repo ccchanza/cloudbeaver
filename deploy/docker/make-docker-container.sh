@@ -1,3 +1,3 @@
 cd ..
-docker build -t dbeaver/cloudbeaver:dev . --file ./docker/cloudbeaver-ce/Dockerfile
+docker buildx build --platform linux/amd64,linux/arm64 -t dbeaver/cloudbeaver:dev . --file ./docker/cloudbeaver-ce/Dockerfile 
 
