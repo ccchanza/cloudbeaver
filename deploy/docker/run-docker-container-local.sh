@@ -5,5 +5,5 @@ export CB_LOCAL_HOST_ADDR=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | g
 
 echo $CB_LOCAL_HOST_ADDR
 
-docker run --name cloudbeaver --rm -ti -p 8978:8978 --add-host=host.docker.internal:${CB_LOCAL_HOST_ADDR} -v /Users/jayzhan/cb-ws:/opt/cloudbeaver/workspace dbeaver/cloudbeaver:dev
+docker run --name cloudbeaver --rm -ti -p 8978:8978 --add-host=host.docker.internal:${CB_LOCAL_HOST_ADDR} -v /Users/jayzhan/cb-ws:/opt/cloudbeaver/workspace ccchanza/cloudbeaver:dev
 
