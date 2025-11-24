@@ -176,31 +176,31 @@ public class WebDatabaseDriverInfo {
         return driver.getDefaultConnectionProperties();
     }
 
-    // @Property
-    // public WebPropertyInfo[] getDriverProperties() throws DBWebException {
-    //     try {
-    //         DBPConnectionConfiguration cfg = new DBPConnectionConfiguration();
-    //         cfg.setUrl(CommonUtils.notEmpty(driver.getSampleURL()));
-    //         cfg.setHostName(DBConstants.HOST_LOCALHOST);
-    //         cfg.setHostPort(driver.getDefaultPort());
-    //         cfg.setDatabaseName(driver.getDefaultDatabase());
-    //         cfg.setUrl(driver.getConnectionURL(cfg));
-    //         DBPPropertyDescriptor[] properties = driver.getDataSourceProvider().getConnectionProperties(webSession.getProgressMonitor(), driver, cfg);
-    //         if (properties == null) {
-    //             return new WebPropertyInfo[0];
-    //         }
+    @Property
+    public WebPropertyInfo[] getDriverProperties() throws DBWebException {
+        try {
+            DBPConnectionConfiguration cfg = new DBPConnectionConfiguration();
+            cfg.setUrl(CommonUtils.notEmpty(driver.getSampleURL()));
+            cfg.setHostName(DBConstants.HOST_LOCALHOST);
+            cfg.setHostPort(driver.getDefaultPort());
+            cfg.setDatabaseName(driver.getDefaultDatabase());
+            cfg.setUrl(driver.getConnectionURL(cfg));
+            DBPPropertyDescriptor[] properties = driver.getDataSourceProvider().getConnectionProperties(webSession.getProgressMonitor(), driver, cfg);
+            if (properties == null) {
+                return new WebPropertyInfo[0];
+            }
 
-    //         PropertySourceCustom propertySource = new PropertySourceCustom(
-    //             properties,
-    //             cfg.getProperties());
+            PropertySourceCustom propertySource = new PropertySourceCustom(
+                properties,
+                cfg.getProperties());
 
-    //         return Arrays.stream(properties)
-    //             .map(p -> new WebPropertyInfo(webSession, p, propertySource)).toArray(WebPropertyInfo[]::new);
-    //     } catch (DBException e) {
-    //         log.error("Error reading driver properties:\n" + e.getMessage());
-    //         return new WebPropertyInfo[0];
-    //     }
-    // }
+            return Arrays.stream(properties)
+                .map(p -> new WebPropertyInfo(webSession, p, propertySource)).toArray(WebPropertyInfo[]::new);
+        } catch (DBException e) {
+            log.error("Error reading driver properties:\n" + e.getMessage());
+            return new WebPropertyInfo[0];
+        }
+    }
 
     @Property
     public Map<String, Object> getDriverParameters() {
