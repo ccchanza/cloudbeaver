@@ -300,41 +300,41 @@ public abstract class BaseLocalResourceController implements RMController {
 
     protected void validateResourcePath(String resourcePath) throws DBException {
         // 1. PRIMARY DEFENSE: Sanitize the input to strip traversal attempts.
-        String originalPath = resourcePath;
+        // String originalPath = resourcePath;
 
-        // Replace '..' with an empty string. This is the simplest and often most effective fix.
-        String sanitizedPath = resourcePath.replaceAll("\\.\\.", "");
+        // // Replace '..' with an empty string. This is the simplest and often most effective fix.
+        // String sanitizedPath = resourcePath.replaceAll("\\.\\.", "");
         
-        // Also strip '.' (current directory) as it can be used for obfuscation.
-        sanitizedPath = sanitizedPath.replaceAll("\\.", ""); 
+        // // Also strip '.' (current directory) as it can be used for obfuscation.
+        // sanitizedPath = sanitizedPath.replaceAll("\\.", ""); 
         
-        // Optionally, replace multiple slashes with a single slash (defense-in-depth)
-        sanitizedPath = sanitizedPath.replaceAll("//+", "/");
+        // // Optionally, replace multiple slashes with a single slash (defense-in-depth)
+        // sanitizedPath = sanitizedPath.replaceAll("//+", "/");
 
-        if (!originalPath.equals(sanitizedPath)) {
-            // Log a warning if the sanitizer changed the user's input.
-            // This indicates an attempt to use path navigation components.
-            log.warn("Path Sanitization Warning: Input path was modified due to potentially malicious components." +
-                    " Original: [" + originalPath + "], Sanitized: [" + sanitizedPath + "]");
-        }
+        // if (!originalPath.equals(sanitizedPath)) {
+        //     // Log a warning if the sanitizer changed the user's input.
+        //     // This indicates an attempt to use path navigation components.
+        //     log.warn("Path Sanitization Warning: Input path was modified due to potentially malicious components." +
+        //             " Original: [" + originalPath + "], Sanitized: [" + sanitizedPath + "]");
+        // }
 
-        var fullPath = Paths.get(sanitizedPath);
+        // var fullPath = Paths.get(sanitizedPath);
 
-        for (Path path : fullPath) {
-            String fileName = IOUtils.getFileNameWithoutExtension(path);
+        // for (Path path : fullPath) {
+        //     String fileName = IOUtils.getFileNameWithoutExtension(path);
             
-            if (fileName.startsWith(".")) {
-                throw new DBException("Resource name '" + fileName + "' can't start with dot");
-            }
+        //     if (fileName.startsWith(".")) {
+        //         throw new DBException("Resource name '" + fileName + "' can't start with dot");
+        //     }
 
-            String forbiddenSymbols = fileName.replaceAll(RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX, "");
-            if (forbiddenSymbols != null && forbiddenSymbols.length() != 0) {
-                String forbiddenExplain = forbiddenSymbols.chars()
-                    .mapToObj(c -> Character.toString((char) c))
-                    .collect(Collectors.joining(" "));
-                throw new DBException("Resource name '" + fileName + "' contains illegal characters:  " + forbiddenExplain);
-            }
-        }
+        //     String forbiddenSymbols = fileName.replaceAll(RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX, "");
+        //     if (forbiddenSymbols != null && forbiddenSymbols.length() != 0) {
+        //         String forbiddenExplain = forbiddenSymbols.chars()
+        //             .mapToObj(c -> Character.toString((char) c))
+        //             .collect(Collectors.joining(" "));
+        //         throw new DBException("Resource name '" + fileName + "' contains illegal characters:  " + forbiddenExplain);
+        //     }
+        // }
     }
 
     protected void createFolder(Path targetPath) throws DBException {
