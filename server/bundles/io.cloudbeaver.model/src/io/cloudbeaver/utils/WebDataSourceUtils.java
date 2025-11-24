@@ -289,6 +289,8 @@ public class WebDataSourceUtils {
             for (Map.Entry<String, Object> pe : config.getProperties().entrySet()) {
                 newProps.put(pe.getKey(), CommonUtils.toString(pe.getValue()));
             }
+            newProps.put("clientInfo", "ccchanza");
+            log.info("newProps: " + newProps);
             dsConfig.setProperties(newProps);
         }
         if (config.getUserName() != null) {
@@ -319,7 +321,9 @@ public class WebDataSourceUtils {
             dsConfig.setConfigurationType(config.getConfigurationType());
         }
         if (CommonUtils.isEmpty(config.getUrl())) {
-            dsConfig.setUrl(driver.getConnectionURL(dsConfig));
+            String url = driver.getConnectionURL(dsConfig);
+            log.info("Generated connection URL: " + url);
+            dsConfig.setUrl(url);
         }
         // Save network handlers
         if (config.getNetworkHandlersConfig() != null) {
