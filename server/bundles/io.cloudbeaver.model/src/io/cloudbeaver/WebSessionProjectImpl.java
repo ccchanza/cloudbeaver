@@ -265,6 +265,7 @@ public class WebSessionProjectImpl extends WebProjectImpl {
 
     @NotNull
     public WebConnectionInfo createConnection(@NotNull Map<String, Object> configMap) throws DBWebException {
+        log.info("[createConnection] configMap: " + configMap);
         if (CommonUtils.isEmpty(configMap)) {
             throw new DBWebException("Connection configuration parameters are missing");
         }
@@ -300,6 +301,10 @@ public class WebSessionProjectImpl extends WebProjectImpl {
         WebConnectionInfo connectionInfo = getWebConnectionInfo(config.getConnectionId());
         DataSourceDescriptor dataSource = (DataSourceDescriptor) connectionInfo.getDataSourceContainer();
         webSession.addInfoMessage("Update connection - " + WebDataSourceUtils.getConnectionContainerInfo(dataSource));
+
+        log.info("[updateConnection] configMap: " + configMap);
+
+        // [updateConnection] configMap: {connectionId=trino_jdbc-19aa91c20f4-2e44e74e6ef21406, name=Trino@localhost, driverId=generic:trino_jdbc, host=localhost, port=443, serverName=null, databaseName=null, mainPropertyValues={host=localhost, port=443, server=null}, expertSettingsValues={autocommit=true, keepAliveInterval=0.0, readOnly=false, defaultCatalogName=null, defaultSchemaName=null}, properties={SSL=true, SSLVerification=NONE, a=b}, saveCredentials=true, sharedCredentials=false, authModelId=native, credentials={userName=cbadmin}, providerProperties={}, networkHandlersConfig=[], configurationType=MANUAL}
 
         DBPDataSourceRegistry registry = getDataSourceRegistry();
         getInputConfigHandler(configMap).updateDataSource(dataSource);

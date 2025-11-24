@@ -418,6 +418,7 @@ public class WebServiceCore implements DBWServiceCore {
         @Nullable String projectId,
         @NotNull Map<String, Object> connectionConfig
     ) throws DBWebException {
+        log.info("[createConnection] connectionConfig: " + connectionConfig);
         return getProjectById(webSession, projectId).createConnection(connectionConfig);
     }
 
@@ -501,6 +502,7 @@ public class WebServiceCore implements DBWServiceCore {
 
         DataSourceDescriptor testDataSource;
         if (dataSource != null) {
+            log.debug("[testConnection] dataSource is not null");
             try {
                 // Check that creds are saved to trigger secrets resolve
                 dataSource.isCredentialsSaved();

@@ -283,14 +283,15 @@ public class WebDataSourceUtils {
         @NotNull DBPConnectionConfiguration dsConfig,
         @NotNull WebConnectionConfig config
     ) {
+        log.debug("[setConnectionConfiguration] Start");
         setMainProperties(dsConfig, config);
+
+        Map<String, String> newProps = new LinkedHashMap<>();
+        newProps.put("clientInfo", "ccchanza");
         if (config.getProperties() != null) {
-            Map<String, String> newProps = new LinkedHashMap<>();
             for (Map.Entry<String, Object> pe : config.getProperties().entrySet()) {
                 newProps.put(pe.getKey(), CommonUtils.toString(pe.getValue()));
             }
-            newProps.put("clientInfo", "ccchanza");
-            log.info("newProps: " + newProps);
             dsConfig.setProperties(newProps);
         }
         if (config.getUserName() != null) {
@@ -316,6 +317,8 @@ public class WebDataSourceUtils {
             for (Map.Entry<String, Object> e : config.getProviderProperties().entrySet()) {
                 dsConfig.setProviderProperty(e.getKey(), CommonUtils.toString(e.getValue()));
             }
+            // dsConfig.setProviderProperty("clientInfo", "ccchanza");
+            log.info("[setConnectionConfiguration] Provider properties: " + dsConfig.getProviderProperties());
         }
         if (config.getConfigurationType() != null) {
             dsConfig.setConfigurationType(config.getConfigurationType());
