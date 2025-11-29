@@ -116,6 +116,7 @@ public interface DBWServiceCore extends DBWService {
         @NotNull WebSession webSession,
         @Nullable String projectId,
         @NotNull String connectionId,
+        @Nullable Map<String, Object> configMap,
         @WebParameterSecure @Nullable Map<String, Object> authProperties,
         @Nullable List<WebNetworkHandlerConfigInput> networkCredentials,
         boolean saveCredentials,

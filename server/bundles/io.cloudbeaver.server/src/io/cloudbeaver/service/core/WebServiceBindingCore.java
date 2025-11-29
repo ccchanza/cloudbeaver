@@ -127,6 +127,7 @@ public class WebServiceBindingCore extends WebServiceBindingBase<DBWServiceCore>
                         getWebSession(env),
                         getProjectReference(env),
                         getArgumentVal(env, "id"),
+                        getArgument(env, "config"),
                         getArgument(env, "credentials"),
                         nhc,
                         CommonUtils.toBoolean(getArgument(env, "saveCredentials")),

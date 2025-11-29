@@ -166,6 +166,7 @@ public class WebSessionProjectImpl extends WebProjectImpl {
      */
     @NotNull
     public synchronized WebConnectionInfo addConnection(@NotNull DBPDataSourceContainer dataSourceContainer) {
+        log.info("[addConnection] start");
         WebConnectionInfo connection = createConnectionInfo(dataSourceContainer);
         synchronized (connections) {
             connections.put(dataSourceContainer.getId(), connection);

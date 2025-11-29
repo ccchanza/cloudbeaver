@@ -32,6 +32,7 @@ import io.cloudbeaver.utils.ServletAppUtils;
 import io.cloudbeaver.utils.WebCommonUtils;
 import io.cloudbeaver.utils.WebConnectionFolderUtils;
 import io.cloudbeaver.utils.WebDataSourceUtils;
+import io.cloudbeaver.model.user.WebUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jkiss.code.NotNull;
@@ -299,12 +300,46 @@ public class WebServiceCore implements DBWServiceCore {
         @NotNull WebSession webSession,
         @Nullable String projectId,
         @NotNull String connectionId,
+        @Nullable Map<String, Object> configMap,
         @Nullable Map<String, Object> authProperties,
         @Nullable List<WebNetworkHandlerConfigInput> networkCredentials,
         boolean saveCredentials,
         boolean sharedCredentials,
         @Nullable String selectedSecretId
     ) throws DBWebException {
+        WebUser user = webSession.getUser();
+        log.info("[updateconnecection] UserID: " + user.getUserId());
+        log.info("[initConnection] connectionId: " + connectionId);
+        log.info("[initConnection] configMap: " + configMap);
+
+        // OR this?
+        // WebConnectionInfo connectionInfo = getWebConnectionInfo(config.getConnectionId());
+        // DataSourceDescriptor dataSource = (DataSourceDescriptor) connectionInfo.getDataSourceContainer();
+        DataSourceDescriptor dataSource = (DataSourceDescriptor) WebDataSourceUtils.getLocalOrGlobalDataSource(
+            webSession, projectId, connectionId);
+
+        DBPConnectionConfiguration dsConfig = dataSource.getConnectionConfiguration();
+        log.info("[initConnection] Before setConnectionConfiguration dsConfig: " + dsConfig.getProperties());
+        dsConfig.setProperty("clientInfo", user.getUserId());
+        
+        log.info("[initConnection] After setConnectionConfiguration dsConfig: " + dsConfig.getProperties());
+        // dsConfig.getProperties()
+
+        // DBPDataSourceRegistry registry = getDataSourceRegistry();
+        // try {
+        //     registry.updateDataSource(dataSource);
+        //     registry.checkForErrors();
+        // } catch (DBException e) {
+        //     throw new DBWebException("Failed to update connection", e);
+        // }
+
+        // 1) get config map
+        // 2) update connectino
+
+        // datasource.driver()
+        // datasource.connectionconfig()
+        // setConnectionConfiguration
+
         WebConnectionInfo connectionInfo = WebDataSourceUtils.getWebConnectionInfo(webSession, projectId, connectionId);
         connectionInfo.validateConnection();
         connectionInfo.setSavedCredentials(authProperties, networkCredentials);
