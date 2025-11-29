@@ -149,6 +149,7 @@ public class WebSessionProjectImpl extends WebProjectImpl {
      */
     @NotNull
     public WebConnectionInfo getWebConnectionInfo(@NotNull String connectionId) throws DBWebException {
+        // seems like the entry
         WebConnectionInfo connectionInfo = findWebConnectionInfo(connectionId);
         if (connectionInfo != null) {
             return connectionInfo;

@@ -494,6 +494,7 @@ public class WebServiceCore implements DBWServiceCore {
         @Nullable String projectId,
         @NotNull Map<String, Object> connectionConfig
     ) throws DBWebException {
+        log.info("[testConnection] connectionConfig: " + connectionConfig);
         WebSessionProjectImpl project = getProjectById(webSession, projectId);
         WebConnectionConfig configInput = project.getConnectionConfigInput(connectionConfig);
 

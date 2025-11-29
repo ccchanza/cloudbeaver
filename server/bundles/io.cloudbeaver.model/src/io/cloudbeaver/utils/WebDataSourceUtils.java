@@ -286,16 +286,13 @@ public class WebDataSourceUtils {
         log.debug("[setConnectionConfiguration] Start");
         setMainProperties(dsConfig, config);
 
-        Map<String, String> props = dsConfig.getProperties();
-
-        // Map<String, String> newProps = new LinkedHashMap<>();
-        props.put("clientInfo", "ccchanza");
         if (config.getProperties() != null) {
+            Map<String, String> newProps = new LinkedHashMap<>();
             for (Map.Entry<String, Object> pe : config.getProperties().entrySet()) {
-                props.put(pe.getKey(), CommonUtils.toString(pe.getValue()));
+                newProps.put(pe.getKey(), CommonUtils.toString(pe.getValue()));
             }
+            dsConfig.setProperties(newProps);
         }
-        dsConfig.setProperties(props);
         if (config.getUserName() != null) {
             dsConfig.setUserName(config.getUserName());
         }
@@ -319,7 +316,7 @@ public class WebDataSourceUtils {
             for (Map.Entry<String, Object> e : config.getProviderProperties().entrySet()) {
                 dsConfig.setProviderProperty(e.getKey(), CommonUtils.toString(e.getValue()));
             }
-            dsConfig.setProviderProperty("clientInfo", "ccchanza");
+            // dsConfig.setProviderProperty("clientInfo", "ccchanza");
             log.info("[setConnectionConfiguration] Provider properties: " + dsConfig.getProviderProperties());
         }
         if (config.getConfigurationType() != null) {

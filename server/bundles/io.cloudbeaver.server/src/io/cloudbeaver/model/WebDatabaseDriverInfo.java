@@ -184,7 +184,9 @@ public class WebDatabaseDriverInfo {
             cfg.setHostName(DBConstants.HOST_LOCALHOST);
             cfg.setHostPort(driver.getDefaultPort());
             cfg.setDatabaseName(driver.getDefaultDatabase());
-            cfg.setUrl(driver.getConnectionURL(cfg));
+            String url = driver.getConnectionURL(cfg);
+            log.info("[getDriverProperties] URL: " + url);
+            cfg.setUrl(url);
             DBPPropertyDescriptor[] properties = driver.getDataSourceProvider().getConnectionProperties(webSession.getProgressMonitor(), driver, cfg);
             if (properties == null) {
                 return new WebPropertyInfo[0];
