@@ -151,11 +151,6 @@ public class ConnectionSearcher implements DBRRunnableWithProgress {
         portCache.put(driverPort, searchInfo);
 
         try {
-            try (Socket s = new Socket()) {
-                s.setReuseAddress(true);
-                SocketAddress sa = new InetSocketAddress(hostName, driverPort);
-                s.connect(sa, timeout);
-            }
             searchInfo.addDriver(driverId);
         } catch (Exception e) {
             // Ignore

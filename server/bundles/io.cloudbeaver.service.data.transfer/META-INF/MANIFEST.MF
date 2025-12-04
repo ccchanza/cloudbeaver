@@ -9,5 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Require-Bundle: io.cloudbeaver.server.ce,
  org.jkiss.dbeaver.data.transfer,
+ org.jkiss.bundle.jakarta.servlet-api,
  org.jkiss.dbeaver.registry
 Automatic-Module-Name: io.cloudbeaver.service.data.transfer

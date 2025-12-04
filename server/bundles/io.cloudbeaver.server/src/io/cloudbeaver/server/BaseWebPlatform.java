@@ -70,11 +70,11 @@ public abstract class BaseWebPlatform extends BaseServletPlatform {
         return WebPlatformActivator.getInstance();
     }
     
-    @NotNull
-    @Override
-    public DBACertificateStorage getCertificateStorage() {
-        return certificateStorage;
-    }
+    // @NotNull
+    // @Override
+    // public DBACertificateStorage getCertificateStorage() {
+    //     return certificateStorage;
+    // }
 
     @NotNull
     @Override

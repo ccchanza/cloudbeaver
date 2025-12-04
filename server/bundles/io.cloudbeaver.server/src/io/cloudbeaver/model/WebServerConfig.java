@@ -16,7 +16,7 @@
  */
 package io.cloudbeaver.model;
 
-import io.cloudbeaver.registry.WebServerFeatureRegistry;
+// import io.cloudbeaver.registry.WebServerFeatureRegistry;
 import io.cloudbeaver.registry.WebServiceDescriptor;
 import io.cloudbeaver.registry.WebServiceRegistry;
 import io.cloudbeaver.server.WebApplication;
@@ -128,11 +128,11 @@ public class WebServerConfig {
         return application.getAppConfiguration().getDisabledBetaFeatures();
     }
 
-    @Property
-    @NotNull
-    public String[] getServerFeatures() {
-        return WebServerFeatureRegistry.getInstance().getServerFeatures();
-    }
+    // @Property
+    // @NotNull
+    // public String[] getServerFeatures() {
+    //     return WebServerFeatureRegistry.getInstance().getServerFeatures();
+    // }
 
     @Property
     public WebServerLanguage[] getSupportedLanguages() {

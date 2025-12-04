@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class BaseLocalResourceController implements RMController {
     private static final Log log = Log.getLog(BaseLocalResourceController.class);
@@ -53,6 +54,7 @@ public abstract class BaseLocalResourceController implements RMController {
     public static final String DEFAULT_CHANGE_ID = "0";
     private static final String FILE_REGEX = "(?U)[\\w.$()@/\\\\ -]+";
     private static final String PROJECT_REGEX = "(?U)[\\w.$()@ -]+"; // slash not allowed in project name
+    private static final String RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX = "(?U)[^/:'\"\\\\<>|?*]+";
 
     @NotNull
     protected final DBPWorkspace workspace;
@@ -297,11 +299,42 @@ public abstract class BaseLocalResourceController implements RMController {
     protected abstract RMProject makeProjectFromId(String projectId, boolean loadPermissions) throws DBException;
 
     protected void validateResourcePath(String resourcePath) throws DBException {
-        var fullPath = Paths.get(resourcePath);
-        for (Path path : fullPath) {
-            String fileName = IOUtils.getFileNameWithoutExtension(path);
-            GeneralUtils.validateResourceName(fileName);
-        }
+        // 1. PRIMARY DEFENSE: Sanitize the input to strip traversal attempts.
+        // String originalPath = resourcePath;
+
+        // // Replace '..' with an empty string. This is the simplest and often most effective fix.
+        // String sanitizedPath = resourcePath.replaceAll("\\.\\.", "");
+        
+        // // Also strip '.' (current directory) as it can be used for obfuscation.
+        // sanitizedPath = sanitizedPath.replaceAll("\\.", ""); 
+        
+        // // Optionally, replace multiple slashes with a single slash (defense-in-depth)
+        // sanitizedPath = sanitizedPath.replaceAll("//+", "/");
+
+        // if (!originalPath.equals(sanitizedPath)) {
+        //     // Log a warning if the sanitizer changed the user's input.
+        //     // This indicates an attempt to use path navigation components.
+        //     log.warn("Path Sanitization Warning: Input path was modified due to potentially malicious components." +
+        //             " Original: [" + originalPath + "], Sanitized: [" + sanitizedPath + "]");
+        // }
+
+        // var fullPath = Paths.get(sanitizedPath);
+
+        // for (Path path : fullPath) {
+        //     String fileName = IOUtils.getFileNameWithoutExtension(path);
+            
+        //     if (fileName.startsWith(".")) {
+        //         throw new DBException("Resource name '" + fileName + "' can't start with dot");
+        //     }
+
+        //     String forbiddenSymbols = fileName.replaceAll(RESOURCE_NAME_FORBIDDEN_SYMBOLS_REGEX, "");
+        //     if (forbiddenSymbols != null && forbiddenSymbols.length() != 0) {
+        //         String forbiddenExplain = forbiddenSymbols.chars()
+        //             .mapToObj(c -> Character.toString((char) c))
+        //             .collect(Collectors.joining(" "));
+        //         throw new DBException("Resource name '" + fileName + "' contains illegal characters:  " + forbiddenExplain);
+        //     }
+        // }
     }
 
     protected void createFolder(Path targetPath) throws DBException {

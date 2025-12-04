@@ -19,33 +19,19 @@ package io.cloudbeaver.server.actions;
 import io.cloudbeaver.model.session.WebSession;
 import io.cloudbeaver.service.DBWServletHandler;
 import io.cloudbeaver.utils.ServletAppUtils;
+
 import jakarta.servlet.Servlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.jkiss.dbeaver.DBException;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AbstractActionServletHandler implements DBWServletHandler {
 
     @Override
     public abstract boolean handleRequest(Servlet servlet, HttpServletRequest request, HttpServletResponse response) throws DBException, IOException;
-
-    protected void createActionFromParams(WebSession session, HttpServletRequest request, HttpServletResponse response) throws DBException, IOException {
-        Map<String, Object> parameters = new HashMap<>();
-        for (Enumeration<String> ne = request.getParameterNames(); ne.hasMoreElements(); ) {
-            String paramName = ne.nextElement();
-            parameters.put(paramName, request.getParameter(paramName));
-        }
-        CBServerAction action = new CBServerAction(getActionConsole(), parameters);
-        action.saveInSession(session);
-
-        // Redirect to home
-        response.sendRedirect(ServletAppUtils.getServletApplication().getServerConfiguration().getRootURI());
-    }
 
     protected abstract String getActionConsole();
 }

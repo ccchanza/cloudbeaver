@@ -16,9 +16,9 @@
  */
 package io.cloudbeaver.model.app;
 
-import io.cloudbeaver.model.cli.CloudBeaverInstanceServer;
+// import io.cloudbeaver.model.cli.CloudBeaverInstanceServer;
 import io.cloudbeaver.model.log.SLF4JLogHandler;
-import org.eclipse.core.runtime.Platform;
+// import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.jkiss.code.NotNull;
 import org.jkiss.code.Nullable;
@@ -28,7 +28,7 @@ import org.jkiss.dbeaver.model.DBFileController;
 import org.jkiss.dbeaver.model.app.DBPWorkspace;
 import org.jkiss.dbeaver.model.auth.SMCredentialsProvider;
 import org.jkiss.dbeaver.model.auth.SMSessionContext;
-import org.jkiss.dbeaver.model.cli.ApplicationInstanceController;
+// import org.jkiss.dbeaver.model.cli.ApplicationInstanceController;
 import org.jkiss.dbeaver.model.data.json.JSONUtils;
 import org.jkiss.dbeaver.model.impl.app.ApplicationRegistry;
 import org.jkiss.dbeaver.model.impl.app.BaseApplicationImpl;
@@ -46,6 +46,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Servlet application
@@ -60,7 +61,7 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
     private static final Log log = Log.getLog(BaseServletApplication.class);
 
     private String instanceId;
-    private CloudBeaverInstanceServer instanceServer;
+    // private CloudBeaverInstanceServer instanceServer;
     @Override
     public RMController createResourceController(
         @NotNull SMCredentialsProvider credentialsProvider,
@@ -133,17 +134,8 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
     }
 
     protected Path getMainConfigurationFilePath() {
-        String configPath = DEFAULT_CONFIG_FILE_PATH;
-
-        String[] args = Platform.getCommandLineArgs();
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals(CLI_PARAM_WEB_CONFIG) && args.length > i + 1) {
-                configPath = args[i + 1];
-                break;
-            }
-        }
-        // try fo find custom config path (it is used mostly for docker volumes)
-        Path configFilePath = Path.of(configPath);
+        // hardcoded conf path to avoid calling Platform.getCommandLineArgs which requires org.eclipse.core.runtime
+        Path configFilePath = Path.of("conf/cloudbeaver.conf");
 
         Path customConfigPath = getCustomConfigPath(configFilePath.getParent(), configFilePath.getFileName().toString());
         if (Files.exists(customConfigPath)) {
@@ -204,11 +196,11 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
     public Object start(IApplicationContext context) {
         initializeApplicationServices();
         try {
-            try {
-                this.instanceServer = createInstanceServer();
-            } catch (Exception e) {
-                log.error("Error initializing instance server", e);
-            }
+            // try {
+            //     this.instanceServer = createInstanceServer();
+            // } catch (Exception e) {
+            //     log.error("Error initializing instance server", e);
+            // }
             startServer();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -217,9 +209,9 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
         return EXIT_OK;
     }
 
-    protected CloudBeaverInstanceServer createInstanceServer() throws IOException {
-        return new CloudBeaverInstanceServer();
-    }
+    // protected CloudBeaverInstanceServer createInstanceServer() throws IOException {
+    //     return new CloudBeaverInstanceServer();
+    // }
 
     protected abstract void startServer() throws DBException;
 
@@ -281,11 +273,11 @@ public abstract class BaseServletApplication extends BaseApplicationImpl impleme
         }
     }
 
-    @Nullable
-    @Override
-    public ApplicationInstanceController getInstanceServer() {
-        return instanceServer;
-    }
+    // @Nullable
+    // @Override
+    // public ApplicationInstanceController getInstanceServer() {
+    //     return instanceServer;
+    // }
 
     @Override
     public boolean isAnonymousAccessEnabled() {

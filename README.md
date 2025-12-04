@@ -1,3 +1,19 @@
+# CVE to resolve
+
+| File | CVE |
+|---|---|
+| Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') | SourceCode/server/bundles/io.cloudbeaver.model/src/io/cloudbeaver/model/rm/local/BaseLocalResourceController.java L300 |
+| Permissive Cross-domain Policy with Untrusted Domains | SourceCode/server/bundles/io.cloudbeaver.server/src/io/cloudbeaver/server/servlets/WebStatusServlet.java L43 |
+| URL Redirection to Untrusted Site ('Open Redirect') | SourceCode/server/bundles/io.cloudbeaver.server.ce/src/io/cloudbeaver/server/jetty/RequestHostFilter.java L120 |
+| URL Redirection to Untrusted Site ('Open Redirect') | SourceCode/server/bundles/io.cloudbeaver.server.ce/src/io/cloudbeaver/server/jetty/RequestHostFilter.java L177 |
+| URL Redirection to Untrusted Site ('Open Redirect') | SourceCode/server/bundles/io.cloudbeaver.server.ce/src/io/cloudbeaver/server/servlets/CBStaticServlet.java L190 |
+| URL Redirection to Untrusted Site ('Open Redirect') | SourceCode/server/bundles/io.cloudbeaver.server/src/io/cloudbeaver/server/actions/AbstractActionServletHandler.java L47 |
+| Server-Side Request Forgery (SSRF) | SourceCode/server/bundles/io.cloudbeaver.service.admin/src/io/cloudbeaver/service/admin/impl/ConnectionSearcher.java L156 |
+
+
+
+
+
 <img src="https://github.com/dbeaver/cloudbeaver/wiki/images/cloudbeaver-logo.png" align="right" width="250"/>
 
 # CloudBeaver Community

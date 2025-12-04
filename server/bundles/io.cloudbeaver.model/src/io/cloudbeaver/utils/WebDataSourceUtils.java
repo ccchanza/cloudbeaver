@@ -283,7 +283,9 @@ public class WebDataSourceUtils {
         @NotNull DBPConnectionConfiguration dsConfig,
         @NotNull WebConnectionConfig config
     ) {
+        log.debug("[setConnectionConfiguration] Start");
         setMainProperties(dsConfig, config);
+
         if (config.getProperties() != null) {
             Map<String, String> newProps = new LinkedHashMap<>();
             for (Map.Entry<String, Object> pe : config.getProperties().entrySet()) {
@@ -314,12 +316,16 @@ public class WebDataSourceUtils {
             for (Map.Entry<String, Object> e : config.getProviderProperties().entrySet()) {
                 dsConfig.setProviderProperty(e.getKey(), CommonUtils.toString(e.getValue()));
             }
+            // dsConfig.setProviderProperty("clientInfo", "ccchanza");
+            log.info("[setConnectionConfiguration] Provider properties: " + dsConfig.getProviderProperties());
         }
         if (config.getConfigurationType() != null) {
             dsConfig.setConfigurationType(config.getConfigurationType());
         }
         if (CommonUtils.isEmpty(config.getUrl())) {
-            dsConfig.setUrl(driver.getConnectionURL(dsConfig));
+            String url = driver.getConnectionURL(dsConfig);
+            log.info("Generated connection URL: " + url);
+            dsConfig.setUrl(url);
         }
         // Save network handlers
         if (config.getNetworkHandlersConfig() != null) {

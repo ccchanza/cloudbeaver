@@ -40,7 +40,7 @@ public class WebStatusServlet extends DefaultServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CBConstants.APPLICATION_JSON);
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        // response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> infoMap = new LinkedHashMap<>();
         infoMap.put("health", "ok");
         infoMap.put("product.name", GeneralUtils.getProductName());

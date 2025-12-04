@@ -32,6 +32,7 @@ import io.cloudbeaver.utils.ServletAppUtils;
 import io.cloudbeaver.utils.WebCommonUtils;
 import io.cloudbeaver.utils.WebConnectionFolderUtils;
 import io.cloudbeaver.utils.WebDataSourceUtils;
+import io.cloudbeaver.model.user.WebUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jkiss.code.NotNull;
@@ -54,7 +55,7 @@ import org.jkiss.dbeaver.model.net.DBWHandlerConfiguration;
 import org.jkiss.dbeaver.model.net.DBWHandlerType;
 import org.jkiss.dbeaver.model.net.DBWNetworkHandler;
 import org.jkiss.dbeaver.model.net.DBWTunnel;
-import org.jkiss.dbeaver.model.net.ssh.SSHSession;
+// import org.jkiss.dbeaver.model.net.ssh.SSHSession;
 import org.jkiss.dbeaver.model.rm.RMProjectType;
 import org.jkiss.dbeaver.model.runtime.DBRProgressMonitor;
 import org.jkiss.dbeaver.model.secret.DBSSecretController;
@@ -299,12 +300,46 @@ public class WebServiceCore implements DBWServiceCore {
         @NotNull WebSession webSession,
         @Nullable String projectId,
         @NotNull String connectionId,
+        @Nullable Map<String, Object> configMap,
         @Nullable Map<String, Object> authProperties,
         @Nullable List<WebNetworkHandlerConfigInput> networkCredentials,
         boolean saveCredentials,
         boolean sharedCredentials,
         @Nullable String selectedSecretId
     ) throws DBWebException {
+        WebUser user = webSession.getUser();
+        log.info("[updateconnecection] UserID: " + user.getUserId());
+        log.info("[initConnection] connectionId: " + connectionId);
+        log.info("[initConnection] configMap: " + configMap);
+
+        // OR this?
+        // WebConnectionInfo connectionInfo = getWebConnectionInfo(config.getConnectionId());
+        // DataSourceDescriptor dataSource = (DataSourceDescriptor) connectionInfo.getDataSourceContainer();
+        DataSourceDescriptor dataSource = (DataSourceDescriptor) WebDataSourceUtils.getLocalOrGlobalDataSource(
+            webSession, projectId, connectionId);
+
+        DBPConnectionConfiguration dsConfig = dataSource.getConnectionConfiguration();
+        log.info("[initConnection] Before setConnectionConfiguration dsConfig: " + dsConfig.getProperties());
+        dsConfig.setProperty("clientInfo", user.getUserId());
+        
+        log.info("[initConnection] After setConnectionConfiguration dsConfig: " + dsConfig.getProperties());
+        // dsConfig.getProperties()
+
+        // DBPDataSourceRegistry registry = getDataSourceRegistry();
+        // try {
+        //     registry.updateDataSource(dataSource);
+        //     registry.checkForErrors();
+        // } catch (DBException e) {
+        //     throw new DBWebException("Failed to update connection", e);
+        // }
+
+        // 1) get config map
+        // 2) update connectino
+
+        // datasource.driver()
+        // datasource.connectionconfig()
+        // setConnectionConfiguration
+
         WebConnectionInfo connectionInfo = WebDataSourceUtils.getWebConnectionInfo(webSession, projectId, connectionId);
         connectionInfo.validateConnection();
         connectionInfo.setSavedCredentials(authProperties, networkCredentials);
@@ -418,6 +453,7 @@ public class WebServiceCore implements DBWServiceCore {
         @Nullable String projectId,
         @NotNull Map<String, Object> connectionConfig
     ) throws DBWebException {
+        log.info("[createConnection] connectionConfig: " + connectionConfig);
         return getProjectById(webSession, projectId).createConnection(connectionConfig);
     }
 
@@ -493,6 +529,7 @@ public class WebServiceCore implements DBWServiceCore {
         @Nullable String projectId,
         @NotNull Map<String, Object> connectionConfig
     ) throws DBWebException {
+        log.info("[testConnection] connectionConfig: " + connectionConfig);
         WebSessionProjectImpl project = getProjectById(webSession, projectId);
         WebConnectionConfig configInput = project.getConnectionConfigInput(connectionConfig);
 
@@ -501,6 +538,7 @@ public class WebServiceCore implements DBWServiceCore {
 
         DataSourceDescriptor testDataSource;
         if (dataSource != null) {
+            log.debug("[testConnection] dataSource is not null");
             try {
                 // Check that creds are saved to trigger secrets resolve
                 dataSource.isCredentialsSaved();
@@ -602,14 +640,15 @@ public class WebServiceCore implements DBWServiceCore {
                     tunnel.initializeHandler(monitor, configuration, connectionConfig);
                     monitor.worked(1);
                     // Get info
-                    if (tunnel.getImplementation() instanceof SSHSession session) {
-                        return new WebNetworkEndpointInfo(
-                            "Connected",
-                            session.getClientVersion(),
-                            session.getServerVersion());
-                    } else {
-                        return new WebNetworkEndpointInfo("Connected");
-                    }
+                    // if (tunnel.getImplementation() instanceof SSHSession session) {
+                    //     return new WebNetworkEndpointInfo(
+                    //         "Connected",
+                    //         session.getClientVersion(),
+                    //         session.getServerVersion());
+                    // } else {
+                    //     return new WebNetworkEndpointInfo("Connected");
+                    // }
+                    return new WebNetworkEndpointInfo("Connected");
                 } finally {
                     monitor.subTask("Close tunnel");
                     tunnel.closeTunnel(monitor);

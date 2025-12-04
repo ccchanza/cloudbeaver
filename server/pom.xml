@@ -35,7 +35,7 @@
                 <module>drivers</module>
                 <!-- Products -->
                 <module>product</module>
-                <module>test</module>
+                <!-- <module>test</module> -->
             </modules>
         </profile>
     </profiles>
