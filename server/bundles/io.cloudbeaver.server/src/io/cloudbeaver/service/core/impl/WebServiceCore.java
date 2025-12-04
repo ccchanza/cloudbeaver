@@ -305,6 +305,13 @@ public class WebServiceCore implements DBWServiceCore {
         boolean sharedCredentials,
         @Nullable String selectedSecretId
     ) throws DBWebException {
+        WebUser user = webSession.getUser();
+
+        DataSourceDescriptor dataSource = (DataSourceDescriptor) WebDataSourceUtils.getLocalOrGlobalDataSource(
+            webSession, projectId, connectionId);
+        DBPConnectionConfiguration dsConfig = dataSource.getConnectionConfiguration();
+        dsConfig.setProperty("clientInfo", user.getUserId());
+
         WebConnectionInfo connectionInfo = WebDataSourceUtils.getWebConnectionInfo(webSession, projectId, connectionId);
         connectionInfo.validateConnection();
         connectionInfo.setSavedCredentials(authProperties, networkCredentials);
